@@ -3,14 +3,18 @@
 
     <v-main class="container">
     
-      <v-container max-width="1440px" >
-        <v-text-field label="buscar tarefa"
-        v-model="task" >
+      <v-container max-width="1440px"  v-if="!loading">
+        <v-col
+        >
+          <v-text-field label="BUSCAR TAREFA"
+        v-model="task"
+        >
+      </v-text-field>
+        </v-col>
+     
 
-        </v-text-field>
+      
         <TaskComponenteVue  v-for="task in tasks" :key="task.id" :tarefa="task" />
-
-
           <FormTaskVue />
           <v-btn
           class="mx-3"
@@ -24,6 +28,13 @@
           </v-icon>
         </v-btn> 
       </v-container>
+      <v-progress-circular
+      :size="70"
+      :width="7"
+      color="purple"
+      indeterminate
+      v-else
+    ></v-progress-circular>
     </v-main>
   </v-app>
 </template>
@@ -44,7 +55,7 @@ export default {
   data: () => ({
       tasks: [],
       taskFilter: [],
-      task: ''
+      loading: true,
   }), 
   methods: {
     adiciona() {
@@ -65,11 +76,19 @@ export default {
     }).catch(error => {
       console.log('houve um erro em buscar todas as tasks', error)
     })
-
+    this.loading = false
   },
 
 }
 </script>
 <style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 700px;
+
+  }
 
 </style>

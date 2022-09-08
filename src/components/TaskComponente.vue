@@ -3,6 +3,7 @@
             <v-card
             elevation="4"
             shaped
+            width="700"
             >
                 <v-card-title>
                     {{ tarefa.title }}
@@ -46,8 +47,4 @@ export default {
 </script>
 
 <style scoped>
-.componente{
-    display: flex;
-    justify-content: center;
-}
 </style>
