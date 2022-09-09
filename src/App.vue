@@ -8,7 +8,7 @@
         <v-col
         >
           <v-text-field label="BUSCAR TAREFA"
-        v-model="task"
+        v-model="taskFilter"
         >
       </v-text-field>
         </v-col>      
@@ -42,6 +42,8 @@
 import TaskComponenteVue from './components/TaskComponente.vue';
 import FormTaskVue from './components/FormTask.vue';
 import barramento from '@/barramento.js'
+import queries from './queries';
+
 
 export default {
   name: 'App',
@@ -65,15 +67,14 @@ export default {
         return this.taskFilter.push(value.title.includes(this.task))
       })
   },
-  async beforeCreate() {
-     await this.$http('tarefas.json').then(response => {
-      for (let key in response.data) {
-                this.tasks.push({id: key, ...response.data[key]})
+   beforeCreate() {
+    queries.getTasks((value) => {
+      for (let key in value) {
+                this.tasks.push({id: key, ...value[key]})
             }
-    }).catch(error => {
-      console.log('houve um erro em buscar todas as tasks', error)
-    })
-    this.loading = false
+          this.loading = false
+          })
+       
   },
 
 }

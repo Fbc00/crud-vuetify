@@ -20,6 +20,7 @@
 
 <script>
 import barramento  from '@/barramento'
+import queries from '../queries'
 export default {
     props: {
         tarefa: {
@@ -34,12 +35,10 @@ export default {
         editarTask() {
             barramento.alterarTask({dialog:true, task:this.tarefa})
         },
-        async excluirTask(id){
-            await this.$http.delete(`tarefas/${id}.json`).then(response => {
-                this.$emit('alerta', {tipo:'error', message: 'tarefa deletada'})
-                return response
+        excluirTask(id){
+            queries.deleteTask(id, callback=> {
+                console.log(callback)
             })
-            
         }
     
     },

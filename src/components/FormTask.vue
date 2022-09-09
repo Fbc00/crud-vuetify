@@ -44,6 +44,7 @@
 
 <script>
 import barramento from '../barramento'
+import queries from '@/queries'
 export default {
     data() {
         return{
@@ -63,19 +64,19 @@ export default {
               projeto: ''
             }
         },
-        async addNewTask(){
-        await this.$http.post('/tarefas.json', this.newtask).then(response => {
-            console.log(response)
+         addNewTask(){
+          queries.createTask(this.newtask, callback=> {
             this.$emit('alerta', {tipo:'success', message: 'Tarefa Adicionada com Sucesso'})
-        })
+            console.log(callback)
+          })
         this.dialog = false
         this.limpaForm()
         },
-        async editarTask(){
-          await this.$http.patch(`tarefas/${this.newtask.id}.json`, this.newtask).then(response => {  
-            console.log(response)
-            this.$emit('alerta', {tipo:'success', message: 'Editado com Sucesso'})
-          })
+         editarTask(){
+             queries.updateTask(this.newtask, callback=> {
+              console.log(callback)
+              this.$emit('alerta', {tipo:'success', message: 'Editado com Sucesso'})
+            })
           this.dialog = false
           this.limpaForm()
         }
@@ -90,7 +91,6 @@ export default {
         barramento.quandoAdicionar(value => {
             this.dialog = value.dialog
         }),
-   
         barramento.quandoTaskMuda(value => {
           this.dialog = value.dialog
           this.newtask = value.task
