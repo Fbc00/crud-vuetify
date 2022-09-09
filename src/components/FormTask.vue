@@ -65,14 +65,16 @@ export default {
         },
         async addNewTask(){
         await this.$http.post('/tarefas.json', this.newtask).then(response => {
-            console.log(response.data)
+            console.log(response)
+            this.$emit('alerta', {tipo:'success', message: 'Tarefa Adicionada com Sucesso'})
         })
         this.dialog = false
         this.limpaForm()
         },
         async editarTask(){
           await this.$http.patch(`tarefas/${this.newtask.id}.json`, this.newtask).then(response => {  
-            console.log('editado com sucesso', response)
+            console.log(response)
+            this.$emit('alerta', {tipo:'success', message: 'Editado com Sucesso'})
           })
           this.dialog = false
           this.limpaForm()

@@ -2,7 +2,8 @@
   <v-app>
 
     <v-main class="container">
-    
+    <v-alert :type="alerta.tipo" 
+    dismissible v-show="alerta">{{ alerta.message }}</v-alert>
       <v-container max-width="1440px"  v-if="!loading">
         <v-col
         >
@@ -10,12 +11,9 @@
         v-model="task"
         >
       </v-text-field>
-        </v-col>
-     
-
-      
-        <TaskComponenteVue  v-for="task in tasks" :key="task.id" :tarefa="task" />
-          <FormTaskVue />
+        </v-col>      
+        <TaskComponenteVue v-for="task in tasks" :key="task.id" :tarefa="task" />
+          <FormTaskVue   @alerta="alerta = $event" />
           <v-btn
           class="mx-3"
           fab
@@ -51,8 +49,8 @@ export default {
     FormTaskVue,
     TaskComponenteVue,
 },
-
   data: () => ({
+      alerta: '',
       tasks: [],
       taskFilter: [],
       loading: true,
@@ -66,7 +64,6 @@ export default {
       this.tasks.filter(value => {
         return this.taskFilter.push(value.title.includes(this.task))
       })
-
   },
   async beforeCreate() {
      await this.$http('tarefas.json').then(response => {
@@ -88,7 +85,6 @@ export default {
     align-items: center;
     justify-content: center;
     width: 700px;
-
   }
 
 </style>

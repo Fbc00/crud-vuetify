@@ -1,6 +1,6 @@
 <template>
     <v-container >
-            <v-card
+        <v-card
             elevation="4"
             shaped
             width="700"
@@ -14,7 +14,7 @@
                     @click="editarTask">Editar</v-btn>
                     <v-btn large class="ma-4" color="error"
                     @click="excluirTask(tarefa.id)">Excluir</v-btn>
-            </v-card >
+        </v-card >
     </v-container>
 </template>
 
@@ -36,11 +36,12 @@ export default {
         },
         async excluirTask(id){
             await this.$http.delete(`tarefas/${id}.json`).then(response => {
-                console.log(response.code)
+                this.$emit('alerta', {tipo:'error', message: 'tarefa deletada'})
+                return response
             })
-            console.log('task exluida com sucesso')
+            
         }
-
+    
     },
 
 }
